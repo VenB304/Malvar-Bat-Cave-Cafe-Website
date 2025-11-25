@@ -22,7 +22,8 @@
         "description": "Moist and fluffy with a hint of cocoa.",
         "price": 65,
         "category": "Pastries",
-        "is_featured": false
+        "is_featured": true,
+        "image": ""
     },
     {
         "id": "4",
@@ -37,7 +38,7 @@
         "description": "",
         "price": 100,
         "category": "Signature Coffee",
-        "is_featured": false,
+        "is_featured": true,
         "image": "",
         "id": "69254cb994a53"
     }

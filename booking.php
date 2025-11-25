@@ -2,14 +2,13 @@
 
 <!-- # booking
     ================================================== -->
-<section id="booking" class="container s-booking target-section"
-    style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center;">
+<section id="booking" class="container s-booking s-booking--flex target-section">
 
     <div class="row s-booking__content">
 
         <div class="column xl-12">
 
-            <div class="section-header" data-num="02">
+            <div class="section-header" data-num="01">
                 <h2 class="text-display-title">Book The Cave</h2>
                 <p class="lead">Select a date to check availability.</p>
             </div>
@@ -90,7 +89,7 @@
             <div class="cost-estimation">
                 <h4>Estimated Cost: <span id="totalCost">₱0.00</span></h4>
             </div>
-            <button type="submit" class="btn btn--primary u-full-width" style="display:block;margin:0 auto;">Submit
+            <button type="submit" class="btn btn--primary u-full-width btn--center">Submit
                 Reservation</button>
         </form>
     </div>

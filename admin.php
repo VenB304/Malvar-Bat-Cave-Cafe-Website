@@ -15,9 +15,8 @@ include 'header.php';
 
         <div class="column xl-12">
 
-            <div class="section-header" data-num="03"
-                style="display: flex; justify-content: space-between; align-items: center;">
-                <h2 class="text-display-title" style="margin-bottom: 0;">Admin Dashboard</h2>
+            <div class="section-header admin-header" data-num="03">
+                <h2 class="text-display-title mb-0">Admin Dashboard</h2>
                 <a href="logout.php" class="btn btn--stroke btn--small">Logout</a>
             </div>
 
@@ -53,8 +52,8 @@ include 'header.php';
 
             <!-- Menu Management Tab -->
             <div id="menu" class="tab-content" style="display:none;">
-                <div class="row" style="justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                    <p class="lead" style="margin-bottom: 0;">Manage Menu Items</p>
+                <div class="row admin-toolbar">
+                    <p class="lead mb-0">Manage Menu Items</p>
                     <button class="btn btn--primary" onclick="openMenuModal()">Add New Item</button>
                 </div>
 
@@ -110,7 +109,7 @@ include 'header.php';
 
             <label for="itemImage">Image</label>
             <input type="file" id="itemImage" name="image" class="u-full-width" accept="image/*">
-            <div id="imagePreview" style="margin-bottom: 1rem;"></div>
+            <div id="imagePreview" class="image-preview-container"></div>
 
             <label>
                 <input type="checkbox" id="itemFeatured" name="is_featured"> Featured Item
@@ -121,270 +120,6 @@ include 'header.php';
     </div>
 </div>
 
-<style>
-    .admin-tabs {
-        margin-bottom: 2rem;
-        border-bottom: 1px solid var(--color-border);
-        padding-bottom: 1rem;
-    }
-
-    .tab-btn {
-        margin-right: 1rem;
-    }
-
-    .status-badge {
-        padding: 0.2rem 0.5rem;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    .status-badge.pending {
-        background-color: var(--color-notice);
-        color: var(--color-notice-content);
-    }
-
-    .status-badge.approved {
-        background-color: var(--color-success);
-        color: var(--color-success-content);
-    }
-
-    .status-badge.rejected {
-        background-color: var(--color-error);
-        color: var(--color-error-content);
-    }
-
-    /* Modal Styles */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.8);
-    }
-
-    .modal-content {
-        background-color: var(--color-bg);
-        margin: 10% auto;
-        padding: 2rem;
-        border: 1px solid var(--color-border);
-        width: 90%;
-        max-width: 600px;
-        border-radius: var(--radius-md);
-    }
-
-    .close-modal {
-        color: var(--color-text);
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    .btn--small {
-        height: auto;
-        line-height: 1.5;
-        padding: 0.2rem 0.8rem;
-        font-size: 0.8rem;
-        margin-right: 0.5rem;
-    }
-
-    .menu-thumb {
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
-        border-radius: 4px;
-    }
-</style>
-
-<script>
-    // Tab Switching
-    function openTab(tabName) {
-        document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.tab-btn').forEach(el => {
-            el.classList.remove('btn--primary');
-            el.classList.add('btn--stroke');
-        });
-
-        document.getElementById(tabName).style.display = 'block';
-        event.target.classList.remove('btn--stroke');
-        event.target.classList.add('btn--primary');
-
-        if (tabName === 'menu') loadMenu();
-        if (tabName === 'reservations') loadReservations();
-    }
-
-    // Reservation Management
-    function loadReservations() {
-        fetch('api/booking_handler.php')
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.getElementById('reservationTable');
-                tbody.innerHTML = '';
-
-                // Sort by date (newest first)
-                data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-                data.forEach(item => {
-                    const statusClass = item.status.toLowerCase();
-                    const isPending = item.status === 'Pending';
-
-                    const row = `
-                        <tr id="row-${item.id}">
-                            <td>#${item.id}</td>
-                            <td>${item.name}</td>
-                            <td>${item.date}</td>
-                            <td>${formatTime(item.time)} (${item.duration}hrs)</td>
-                            <td>${item.mode} (${item.pax} Pax)</td>
-                            <td><span class="status-badge ${statusClass}">${item.status}</span></td>
-                            <td>
-                                ${isPending ? `
-                                    <button class="btn btn--primary btn--small" onclick="updateStatus('${item.id}', 'Approved')">Approve</button>
-                                    <button class="btn btn--stroke btn--small" onclick="updateStatus('${item.id}', 'Rejected')">Reject</button>
-                                ` : `
-                                    <button class="btn btn--stroke btn--small" disabled>Locked</button>
-                                `}
-                            </td>
-                        </tr>
-                    `;
-                    tbody.innerHTML += row;
-                });
-            });
-    }
-
-    function updateStatus(id, status) {
-        const formData = new FormData();
-        formData.append('action', 'update_status');
-        formData.append('id', id);
-        formData.append('status', status);
-
-        fetch('api/booking_handler.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    loadReservations();
-                } else {
-                    alert('Error updating status');
-                }
-            });
-    }
-
-    function formatTime(hour) {
-        hour = parseInt(hour);
-        const ampm = hour >= 12 && hour < 24 ? 'PM' : 'AM';
-        const displayHour = hour > 12 ? hour - 12 : (hour === 0 || hour === 24 ? 12 : hour);
-        return `${displayHour}:00 ${ampm}`;
-    }
-
-    // Menu Management
-    function loadMenu() {
-        fetch('api/menu_handler.php')
-            .then(response => response.json())
-            .then(data => {
-                const tbody = document.getElementById('menuTable');
-                tbody.innerHTML = '';
-                data.forEach(item => {
-                    const imageHtml = item.image ? `<img src="${item.image}" class="menu-thumb" alt="${item.name}">` : '<span style="color:#ccc;">No Image</span>';
-                    const row = `
-                        <tr>
-                            <td>
-                                <div style="display:flex; align-items:center; gap:1rem;">
-                                    ${imageHtml}
-                                    <span>${item.name}</span>
-                                </div>
-                            </td>
-                            <td>${item.category}</td>
-                            <td>₱${parseFloat(item.price).toFixed(2)}</td>
-                            <td>${item.is_featured ? 'Yes' : 'No'}</td>
-                            <td>
-                                <button class="btn btn--small btn--stroke" onclick='editItem(${JSON.stringify(item)})'>Edit</button>
-                                <button class="btn btn--small btn--stroke" onclick="deleteItem('${item.id}')">Delete</button>
-                            </td>
-                        </tr>
-                    `;
-                    tbody.innerHTML += row;
-                });
-            });
-    }
-
-    function openMenuModal() {
-        document.getElementById('menuForm').reset();
-        document.getElementById('formAction').value = 'add';
-        document.getElementById('menuModalTitle').innerText = 'Add Menu Item';
-        document.getElementById('imagePreview').innerHTML = '';
-        document.getElementById('menuModal').style.display = 'block';
-    }
-
-    function closeMenuModal() {
-        document.getElementById('menuModal').style.display = 'none';
-    }
-
-    function editItem(item) {
-        document.getElementById('itemId').value = item.id;
-        document.getElementById('itemName').value = item.name;
-        document.getElementById('itemCategory').value = item.category;
-        document.getElementById('itemPrice').value = item.price;
-        document.getElementById('itemDesc').value = item.description;
-        document.getElementById('itemFeatured').checked = item.is_featured;
-        document.getElementById('formAction').value = 'edit';
-        document.getElementById('menuModalTitle').innerText = 'Edit Menu Item';
-
-        if (item.image) {
-            document.getElementById('imagePreview').innerHTML = `<p>Current Image:</p><img src="${item.image}" style="max-width:100px; border-radius:4px;">`;
-        } else {
-            document.getElementById('imagePreview').innerHTML = '';
-        }
-
-        document.getElementById('menuModal').style.display = 'block';
-    }
-
-    function deleteItem(id) {
-        if (confirm('Are you sure you want to delete this item?')) {
-            const formData = new FormData();
-            formData.append('action', 'delete');
-            formData.append('id', id);
-
-            fetch('api/menu_handler.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) loadMenu();
-                    else alert('Error deleting item');
-                });
-        }
-    }
-
-    document.getElementById('menuForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(this);
-
-        fetch('api/menu_handler.php', {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    closeMenuModal();
-                    loadMenu();
-                } else {
-                    alert('Error saving item');
-                }
-            });
-    });
-
-    // Initial Load
-    loadReservations();
-</script>
+<script src="js/admin.js"></script>
 
 <?php include 'footer.php'; ?>

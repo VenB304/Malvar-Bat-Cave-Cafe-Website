@@ -16,7 +16,7 @@
 
     <!-- CSS
     ================================================== -->
-    <link rel="stylesheet" href="css/vendor.css">
+
     <link rel="stylesheet" href="css/style.css">
 
     <!-- favicons

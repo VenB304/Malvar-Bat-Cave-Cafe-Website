@@ -44,11 +44,11 @@
                                     <?php foreach ($items as $item): ?>
                                         <tr>
                                             <td>
-                                                <div style="display:flex; align-items:center; gap:1rem;">
+                                                <div class="menu-item-header">
                                                     <?php if (!empty($item['image'])): ?>
                                                         <img src="<?php echo htmlspecialchars($item['image']); ?>"
                                                             alt="<?php echo htmlspecialchars($item['name']); ?>"
-                                                            style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+                                                            class="menu-item-image">
                                                     <?php endif; ?>
                                                     <div>
                                                         <strong><?php echo htmlspecialchars($item['name']); ?></strong>

@@ -145,7 +145,7 @@
 
     /* semantic colors */
     --color-error: hsl(359, 100%, 91%);
-    --color-success: hsl(76, 69%, 68%);
+    --color-success: hsl(118, 69%, 68%);
     --color-info: hsl(205, 82%, 91%);
     --color-notice: hsl(51, 100%, 80%);
     --color-error-content: hsl(359, 50%, 50%);
@@ -386,6 +386,9 @@
     --text-huge: calc(var(--text-3display) * var(--text-scale-ratio));
     --text-2huge: calc(var(--text-huge) * var(--text-scale-ratio));
     --text-3huge: calc(var(--text-2huge) * var(--text-scale-ratio));
+
+    /* Header Height Global */
+    --header-height: 7.2rem;
 }
 
 /* on small screen devices, adjust the value of '--multiplier' 
@@ -3042,6 +3045,15 @@ td:last-child {
     text-align: center;
 }
 
+/* ===================================================================
+ * # admin section
+ *
+ * ------------------------------------------------------------------- */
+.s-admin {
+    padding-top: calc(var(--header-height) + var(--vspace-2));
+    padding-bottom: var(--vspace-4);
+}
+
 /* ------------------------------------------------------------------- 
  * ## social list
  * ------------------------------------------------------------------- */
@@ -3357,8 +3369,11 @@ td:last-child {
 }
 
 @media screen and (max-width: 900px) {
-    .s-header {
+    :root {
         --header-height: 80px;
+    }
+
+    .s-header {
         top: 0;
     }
 
@@ -5030,4 +5045,156 @@ td:last-child {
 .cost-estimation h4 {
     margin: 0;
     color: var(--color-1);
+}
+
+/* ===================================================================
+ * # MENU ITEM STYLES
+ * ------------------------------------------------------------------- */
+.menu-item-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.menu-item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* ===================================================================
+ * # BOOKING PAGE STYLES
+ * ------------------------------------------------------------------- */
+.s-booking--flex {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.btn--center {
+    display: block;
+    margin: 0 auto;
+}
+
+/* ===================================================================
+ * # ADMIN PAGE STYLES
+ * ------------------------------------------------------------------- */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+
+.mb-1 {
+    margin-bottom: 1rem !important;
+}
+
+.mb-2 {
+    margin-bottom: 2rem !important;
+}
+
+.admin-tabs {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1rem;
+}
+
+.tab-btn {
+    margin-right: 1rem;
+}
+
+.status-badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-badge.pending {
+    background-color: var(--color-notice);
+    color: var(--color-notice-content);
+}
+
+.status-badge.approved {
+    background-color: var(--color-success);
+    color: var(--color-success-content);
+}
+
+.status-badge.rejected {
+    background-color: var(--color-error);
+    color: var(--color-error-content);
+}
+
+/* Modal Styles - Overrides or Additions */
+/* Note: .modal and .modal-content might already exist, checking for conflicts */
+/* Since they exist at the end of the file (lines 5000+), I will reuse them but ensure admin specific styles are covered */
+
+.btn--small {
+    height: auto;
+    line-height: 1.5;
+    padding: 0.2rem 0.8rem;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+}
+
+.menu-thumb {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.image-preview-container {
+    margin-bottom: 1rem;
+}
+
+.image-preview-thumb {
+    max-width: 100px;
+    border-radius: 4px;
+}
+
+/* ===================================================================
+ * # LOGIN PAGE STYLES
+ * ------------------------------------------------------------------- */
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 2rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.error-msg {
+    color: var(--color-error);
+    margin-bottom: 1rem;
+}
+
+.u-full-width {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.mt-2 {
+    margin-top: 2rem !important;
 }
