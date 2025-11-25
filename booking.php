@@ -44,54 +44,55 @@
         <h3>Reserve for <span id="selectedDateDisplay"></span></h3>
 
         <form id="bookingForm">
-    <input type="hidden" id="selectedDate" name="selectedDate">
-    <div class="form-group">
-        <label>Booking Mode</label>
-        <div class="mode-toggle">
-            <label><input type="radio" name="mode" value="study" checked> Study Mode (₱50/hr/pax)</label>
-            <label><input type="radio" name="mode" value="event"> Event Mode (₱1000/hr)</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="column xl-6">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" required class="u-full-width">
-        </div>
-        <div class="column xl-6">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required class="u-full-width">
-        </div>
-    </div>
-    <div class="row">
-        <div class="column xl-6">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" required class="u-full-width">
-        </div>
-        <div class="column xl-6" id="paxContainer">
-            <label for="pax">Pax (Max 20)</label>
-            <input type="number" id="pax" name="pax" min="1" max="20" value="1" class="u-full-width">
-        </div>
-    </div>
-    <div class="row">
-        <div class="column xl-4">
-            <label for="startTime">Start Time</label>
-            <select id="startTime" name="startTime" class="u-full-width"></select>
-        </div>
-        <div class="column xl-4">
-            <label for="duration">Duration (Hrs)</label>
-            <input type="number" id="duration" name="duration" min="1" max="12" value="1" class="u-full-width">
-        </div>
-    </div>
-    <div class="form-group">
-        <label>Equipment Add-ons</label>
-        <label><input type="checkbox" id="projector" value="150"> Projector (+₱150/hr)</label>
-        <label><input type="checkbox" id="speaker" value="150"> Speaker &amp; Mic (+₱150/hr)</label>
-    </div>
-    <div class="cost-estimation">
-        <h4>Estimated Cost: <span id="totalCost">₱0.00</span></h4>
-    </div>
-    <button type="submit" class="btn btn--primary u-full-width" style="display:block;margin:0 auto;">Submit Reservation</button>
-</form>
+            <input type="hidden" id="selectedDate" name="selectedDate">
+            <div class="form-group">
+                <label>Booking Mode</label>
+                <div class="mode-toggle">
+                    <label><input type="radio" name="mode" value="study" checked> Study Mode (₱50/hr/pax)</label>
+                    <label><input type="radio" name="mode" value="event"> Event Mode (₱1000/hr)</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column xl-6">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required class="u-full-width">
+                </div>
+                <div class="column xl-6">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required class="u-full-width">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column xl-6">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required class="u-full-width">
+                </div>
+                <div class="column xl-6" id="paxContainer">
+                    <label for="pax">Pax (Max 20)</label>
+                    <input type="number" id="pax" name="pax" min="1" max="20" value="1" class="u-full-width">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column xl-4">
+                    <label for="startTime">Start Time</label>
+                    <select id="startTime" name="startTime" class="u-full-width"></select>
+                </div>
+                <div class="column xl-4">
+                    <label for="duration">Duration (Hrs)</label>
+                    <input type="number" id="duration" name="duration" min="1" max="12" value="1" class="u-full-width">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Equipment Add-ons</label>
+                <label><input type="checkbox" id="projector" value="150"> Projector (+₱150/hr)</label>
+                <label><input type="checkbox" id="speaker" value="150"> Speaker &amp; Mic (+₱150/hr)</label>
+            </div>
+            <div class="cost-estimation">
+                <h4>Estimated Cost: <span id="totalCost">₱0.00</span></h4>
+            </div>
+            <button type="submit" class="btn btn--primary u-full-width" style="display:block;margin:0 auto;">Submit
+                Reservation</button>
+        </form>
     </div>
 </div>
 

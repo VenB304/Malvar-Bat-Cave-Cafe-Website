@@ -219,6 +219,22 @@
 }
 
 /* ------------------------------------------------------------------- 
+ * ## buttons
+ * ------------------------------------------------------------------- */
+.btn--stroke {
+    background: transparent !important;
+    border: 2px solid var(--color-btn);
+    color: var(--color-btn) !important;
+}
+
+.btn--stroke:hover,
+.btn--stroke:focus {
+    background: var(--color-btn) !important;
+    color: var(--color-btn-text) !important;
+    border-color: var(--color-btn);
+}
+
+/* ------------------------------------------------------------------- 
  * ## shadows
  * ------------------------------------------------------------------- */
 :root {
@@ -3011,6 +3027,21 @@ td:last-child {
     margin-bottom: -0.4em;
 }
 
+/* ===================================================================
+ * # booking section
+ *
+ * ------------------------------------------------------------------- */
+.s-booking {
+    padding-top: calc(var(--header-height) + var(--vspace-2));
+    padding-bottom: var(--vspace-4);
+}
+
+.booking-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
 /* ------------------------------------------------------------------- 
  * ## social list
  * ------------------------------------------------------------------- */
@@ -3051,105 +3082,6 @@ td:last-child {
 .social-list svg circle {
     fill: rgba(255, 255, 255, 0.5);
     transition: all 0.3s var(--ease-snappy-polished);
-}
-
-/* ------------------------------------------------------------------- 
- * ## swiper overrides
- * ------------------------------------------------------------------- */
-.swiper-container .swiper-pagination-bullets .swiper-pagination-bullet {
-    margin: 0 var(--vspace-0_375);
-}
-
-.swiper-container .swiper-pagination-bullet {
-    width: 6px;
-    height: 6px;
-    background: var(--color-neutral-500);
-    opacity: 1;
-}
-
-.swiper-container .swiper-pagination-bullet-active {
-    background: var(--color-white);
-    opacity: 1;
-}
-
-.swiper-container .swiper-pagination-bullet:only-child {
-    visibility: hidden;
-}
-
-/* ------------------------------------------------------------------- 
- * ## glightbox overrides
- * ------------------------------------------------------------------- */
-.glightbox-container a {
-    font-weight: 500 !important;
-    color: var(--color-link);
-    border-bottom: 1px dotted var(--color-link);
-}
-
-.glightbox-container .gslide-inner-content {
-    width: min(100%, 1050px);
-}
-
-.glightbox-container .gslide-description {
-    background: rgb(0, 0, 0);
-    width: 100%;
-    text-align: center;
-}
-
-.glightbox-container .gdesc-inner {
-    padding: var(--vspace-1_25) var(--vspace-0_75) var(--vspace-2);
-}
-
-.glightbox-container .gslide-title,
-.glightbox-container .gslide-desc {
-    width: min(100%, 600px);
-    margin: 0 auto;
-}
-
-.glightbox-container .gslide-title {
-    font-family: var(--type-body);
-    font-weight: 400;
-    font-size: 1.7rem !important;
-    color: var(--color-white);
-    margin-top: 0;
-    margin-bottom: var(--vspace-0_375);
-}
-
-.glightbox-container .gslide-desc {
-    font-family: var(--type-body);
-    font-weight: 300;
-    font-size: 1.4rem;
-    line-height: 1.571;
-    color: rgba(255, 255, 255, 0.5) !important;
-}
-
-.glightbox-container .gprev,
-.glightbox-container .gnext,
-.glightbox-container .gclose {
-    margin: 0;
-    padding: 0;
-}
-
-.glightbox-container .gprev svg,
-.glightbox-container .gnext svg,
-.glightbox-container .gclose svg {
-    width: var(--vspace-0_75);
-}
-
-.glightbox-container .goverlay {
-    background: #000;
-}
-
-.glightbox-mobile .gslide-inner-content {
-    padding-top: 0;
-}
-
-.glightbox-mobile .glightbox-container .gslide-desc a,
-.glightbox-mobile .glightbox-container .gslide-desc .desc-more {
-    color: var(--color-link);
-}
-
-.glightbox-mobile .glightbox-container .gslide-desc .desc-more {
-    opacity: 1;
 }
 
 
@@ -4971,131 +4903,131 @@ td:last-child {
 }
 
 .calendar-container {
-                max-width: 800px;
-                margin: 0 auto;
-                background: var(--color-bg-neutral-light);
-                padding: 2rem;
-                border-radius: var(--radius-md);
-                }
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--color-bg-neutral-light);
+    padding: 2rem;
+    border-radius: var(--radius-md);
+}
 
-                .calendar-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 2rem;
-                }
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
 
-                .calendar-grid {
-                display: grid;
-                grid-template-columns: repeat(7, 1fr);
-                gap: 1rem;
-                }
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1rem;
+}
 
-                .calendar-day {
-                aspect-ratio: 1;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: var(--color-bg-neutral);
-                border-radius: var(--radius-sm);
-                cursor: pointer;
-                transition: all 0.3s;
-                color: var(--color-text);
-                font-weight: bold;
-                }
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-neutral);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--color-text);
+    font-weight: bold;
+}
 
-                .calendar-day:hover {
-                transform: scale(1.05);
-                border: 1px solid var(--color-1);
-                }
+.calendar-day:hover {
+    transform: scale(1.05);
+    border: 1px solid var(--color-1);
+}
 
-                .calendar-day.green {
-                border-bottom: 4px solid var(--color-success);
-                }
+.calendar-day.green {
+    border-bottom: 4px solid var(--color-success);
+}
 
-                .calendar-day.yellow {
-                border-bottom: 4px solid var(--color-notice);
-                }
+.calendar-day.yellow {
+    border-bottom: 4px solid var(--color-notice);
+}
 
-                .calendar-day.red {
-                border-bottom: 4px solid var(--color-error);
-                opacity: 0.7;
-                cursor: not-allowed;
-                }
+.calendar-day.red {
+    border-bottom: 4px solid var(--color-error);
+    opacity: 0.7;
+    cursor: not-allowed;
+}
 
-                .calendar-legend {
-                margin-top: 2rem;
-                display: flex;
-                gap: 2rem;
-                justify-content: center;
-                }
+.calendar-legend {
+    margin-top: 2rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+}
 
-                .dot {
-                height: 10px;
-                width: 10px;
-                border-radius: 50%;
-                display: inline-block;
-                margin-right: 5px;
-                }
+.dot {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
 
-                .dot.green {
-                background-color: var(--color-success);
-                }
+.dot.green {
+    background-color: var(--color-success);
+}
 
-                .dot.yellow {
-                background-color: var(--color-notice);
-                }
+.dot.yellow {
+    background-color: var(--color-notice);
+}
 
-                .dot.red {
-                background-color: var(--color-error);
-                }
+.dot.red {
+    background-color: var(--color-error);
+}
 
-                /* Modal Styles */
-                .modal {
-                display: none;
-                position: fixed;
-                z-index: 1000;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                overflow: auto;
-                background-color: rgba(0, 0, 0, 0.8);
-                backdrop-filter: blur(5px);
-                }
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
 
-                .modal-content {
-                background-color: var(--color-bg);
-                margin: 5% auto;
-                padding: 3rem;
-                border: 1px solid var(--color-border);
-                width: 90%;
-                max-width: 600px;
-                border-radius: var(--radius-md);
-                position: relative;
-                }
+.modal-content {
+    background-color: var(--color-bg);
+    margin: 5% auto;
+    padding: 3rem;
+    border: 1px solid var(--color-border);
+    width: 90%;
+    max-width: 600px;
+    border-radius: var(--radius-md);
+    position: relative;
+}
 
-                .close-modal {
-                color: var(--color-text-light);
-                float: right;
-                font-size: 28px;
-                font-weight: bold;
-                cursor: pointer;
-                }
+.close-modal {
+    color: var(--color-text-light);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-                .close-modal:hover {
-                color: var(--color-1);
-                }
+.close-modal:hover {
+    color: var(--color-1);
+}
 
-                .cost-estimation {
-                margin-top: 2rem;
-                padding: 1rem;
-                background: var(--color-bg-neutral-light);
-                border-radius: var(--radius-sm);
-                text-align: center;
-                }
+.cost-estimation {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: var(--color-bg-neutral-light);
+    border-radius: var(--radius-sm);
+    text-align: center;
+}
 
-                .cost-estimation h4 {
-                margin: 0;
-                color: var(--color-1);
-                }
+.cost-estimation h4 {
+    margin: 0;
+    color: var(--color-1);
+}

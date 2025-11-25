@@ -1,5 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    // --- Global State ---
+    let bookings = [];
+
+    // --- Fetch Bookings ---
+    fetch('api/booking_handler.php?action=availability')
+        .then(response => response.json())
+        .then(data => {
+            bookings = data;
+            renderCalendar(currentDate); // Re-render with data
+        })
+        .catch(err => console.error('Error fetching bookings:', err));
+
     // --- Calendar Logic ---
     const calendarGrid = document.getElementById('calendarGrid');
     const currentMonthYear = document.getElementById('currentMonthYear');
@@ -7,6 +19,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const nextMonthBtn = document.getElementById('nextMonth');
 
     let currentDate = new Date();
+
+    function formatDate(year, month, day) {
+        return `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    }
 
     function renderCalendar(date) {
         calendarGrid.innerHTML = '';
@@ -30,11 +46,20 @@ document.addEventListener('DOMContentLoaded', function () {
             dayCell.classList.add('calendar-day');
             dayCell.textContent = i;
 
-            // Deterministic Availability: All days are marked as available (green) and clickable.
-            dayCell.classList.add('green'); // Free
-            dayCell.title = "Available";
-            dayCell.onclick = () => openModal(year, month, i);
+            const dateStr = formatDate(year, month, i);
 
+            // Check availability
+            const dayBookings = bookings.filter(b => b.date === dateStr);
+
+            if (dayBookings.length > 0) {
+                dayCell.classList.add('yellow'); // Partially Booked
+                dayCell.title = "Partially Booked";
+            } else {
+                dayCell.classList.add('green'); // Free
+                dayCell.title = "Available";
+            }
+
+            dayCell.onclick = () => openModal(year, month, i);
             calendarGrid.appendChild(dayCell);
         }
     }
@@ -49,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
         renderCalendar(currentDate);
     });
 
+    // Initial render (will be updated when fetch completes)
     renderCalendar(currentDate);
 
 
@@ -75,9 +101,43 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function openModal(year, month, day) {
-        const dateStr = new Date(year, month, day).toLocaleDateString();
+        const dateStr = formatDate(year, month, day);
         selectedDateInput.value = dateStr;
-        selectedDateDisplay.textContent = dateStr;
+        selectedDateDisplay.textContent = new Date(year, month, day).toDateString();
+
+        // Filter occupied hours
+        const dayBookings = bookings.filter(b => b.date === dateStr);
+        const occupiedHours = new Set();
+
+        dayBookings.forEach(b => {
+            const start = parseInt(b.time);
+            const duration = parseInt(b.duration);
+            for (let h = 0; h < duration; h++) {
+                occupiedHours.add(start + h);
+            }
+        });
+
+        // Update Time Options
+        Array.from(startTimeSelect.options).forEach(option => {
+            const hour = parseInt(option.value);
+            // Reset
+            option.disabled = false;
+            option.textContent = option.textContent.replace(' (Booked)', '');
+
+            if (occupiedHours.has(hour)) {
+                option.disabled = true;
+                option.textContent += ' (Booked)';
+            }
+        });
+
+        // Select first available option
+        const firstAvailable = Array.from(startTimeSelect.options).find(opt => !opt.disabled);
+        if (firstAvailable) {
+            startTimeSelect.value = firstAvailable.value;
+        } else {
+            startTimeSelect.value = ""; // All booked
+        }
+
         modal.style.display = "block";
         calculateCost(); // Reset cost
     }
@@ -132,12 +192,39 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('change', calculateCost);
     form.addEventListener('input', calculateCost);
 
-    // Form Submission (Mock)
+    // Form Submission
     form.addEventListener('submit', function (e) {
         e.preventDefault();
-        alert('Reservation Request Submitted!\n\nTotal Estimated Cost: ' + totalCostDisplay.textContent);
-        modal.style.display = "none";
-        form.reset();
+
+        const formData = new FormData(form);
+        formData.append('action', 'create');
+        formData.append('total_cost', totalCostDisplay.textContent.replace('₱', ''));
+
+        fetch('api/booking_handler.php', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Reservation Request Submitted!\n\nYour Booking ID: ' + data.id + '\nTotal Estimated Cost: ' + totalCostDisplay.textContent);
+                    modal.style.display = "none";
+                    form.reset();
+                    // Refresh bookings
+                    fetch('api/booking_handler.php?action=availability')
+                        .then(res => res.json())
+                        .then(d => {
+                            bookings = d;
+                            renderCalendar(currentDate);
+                        });
+                } else {
+                    alert('Error submitting reservation: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
     });
 
 });

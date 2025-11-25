@@ -12,72 +12,61 @@
                 <h2 class="text-display-title">Our Menu</h2>
             </div>
 
+            <?php
+            require_once 'includes/json_handler.php';
+            $menuHandler = new JsonHandler('data/menu.json');
+            $menuItems = $menuHandler->read();
+
+            // Group by category
+            $menuByCategory = [];
+            foreach ($menuItems as $item) {
+                $menuByCategory[$item['category']][] = $item;
+            }
+            ?>
+
             <div class="menu-block">
 
-                <h3 class="menu-block__cat-name">Specialty Coffee</h3>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Item Name</th>
-                                <th>Description</th>
-                                <th>Price (PHP)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>The Bat Brew</strong> (Signature)</td>
-                                <td>Dark, bold, and perfect for late-night study sessions.</td>
-                                <td>120.00</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Midnight Mocha</strong></td>
-                                <td>Rich chocolate meets espresso. A sweet treat for the night owl.</td>
-                                <td>135.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3 class="menu-block__cat-name">Pastries</h3>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Item Name</th>
-                                <th>Description</th>
-                                <th>Price (PHP)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Red Velvet Muffin</strong></td>
-                                <td>Moist and fluffy with a hint of cocoa.</td>
-                                <td>65.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3 class="menu-block__cat-name">Snacks</h3>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Item Name</th>
-                                <th>Description</th>
-                                <th>Price (PHP)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Nachos Grande</strong></td>
-                                <td>Loaded with cheese, salsa, and toppings. Good for sharing.</td>
-                                <td>180.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <?php if (empty($menuByCategory)): ?>
+                    <p>No menu items available at the moment.</p>
+                <?php else: ?>
+                    <?php foreach ($menuByCategory as $category => $items): ?>
+                        <h3 class="menu-block__cat-name"><?php echo htmlspecialchars($category); ?></h3>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Item Name</th>
+                                        <th>Description</th>
+                                        <th>Price (PHP)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($items as $item): ?>
+                                        <tr>
+                                            <td>
+                                                <div style="display:flex; align-items:center; gap:1rem;">
+                                                    <?php if (!empty($item['image'])): ?>
+                                                        <img src="<?php echo htmlspecialchars($item['image']); ?>"
+                                                            alt="<?php echo htmlspecialchars($item['name']); ?>"
+                                                            style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+                                                    <?php endif; ?>
+                                                    <div>
+                                                        <strong><?php echo htmlspecialchars($item['name']); ?></strong>
+                                                        <?php if (isset($item['is_featured']) && $item['is_featured']): ?>
+                                                            <br><small>(Signature)</small>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td><?php echo htmlspecialchars($item['description']); ?></td>
+                                            <td><?php echo number_format($item['price'], 2); ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
 
             </div> <!-- menu-block -->
 

@@ -1,0 +1,44 @@
+[
+    {
+        "id": "1",
+        "name": "The Bat Brew",
+        "description": "Our signature blend. Dark, bold, and perfect for late-night study sessions.",
+        "price": 120,
+        "category": "Signature Coffee",
+        "is_featured": true,
+        "image": "images\/menu\/6925475ad1960_derakumma.jpg"
+    },
+    {
+        "id": "2",
+        "name": "Midnight Mocha",
+        "description": "Rich chocolate meets espresso. A sweet treat for the night owl.",
+        "price": 135,
+        "category": "Signature Coffee",
+        "is_featured": true
+    },
+    {
+        "id": "3",
+        "name": "Red Velvet Muffin",
+        "description": "Moist and fluffy with a hint of cocoa.",
+        "price": 65,
+        "category": "Pastries",
+        "is_featured": false
+    },
+    {
+        "id": "4",
+        "name": "Nachos Grande",
+        "description": "Loaded with cheese, salsa, and toppings. Good for sharing.",
+        "price": 180,
+        "category": "Snacks",
+        "is_featured": true
+    },
+    {
+        "name": "Test Item",
+        "description": "",
+        "price": 100,
+        "category": "Signature Coffee",
+        "is_featured": false,
+        "image": "",
+        "id": "69254cb994a53"
+    }
+]

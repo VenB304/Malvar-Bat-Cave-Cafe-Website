@@ -88,7 +88,7 @@
 
         <div class="column xl-6 lg-12">
             <p class="ss-copyright">
-                <span>© The Malvar Bat Cave Cafe 2025</span>
+                <span>© The Malvar Bat Cave Cafe 2025 | <a href="admin.php">Admin</a></span>
             </p>
         </div>
 

@@ -106,60 +106,54 @@
 
         <div class="column xl-6 lg-6 md-12 s-menu__content-end">
 
-            <div class="tab-content menu-block">
+            <div class="row s-menu__content">
+                <div class="column xl-12">
+                    <div class="menu-block">
+                        <?php
+                        require_once 'includes/json_handler.php';
+                        $menuHandler = new JsonHandler('data/menu.json');
+                        $menuItems = $menuHandler->read();
+                        $featuredItems = array_filter($menuItems, function ($item) {
+                            return isset($item['is_featured']) && $item['is_featured'];
+                        });
+                        ?>
 
-                <div id="tab-signature-blends" class="menu-block__group tab-content__item">
-
-                    <h6 class="menu-block__cat-name">
-                        Signature Coffee
-                    </h6>
-
-                    <ul class="menu-list">
-                        <li class="menu-list__item">
-                            <div class="menu-list__item-desc">
-                                <h4>The Bat Brew</h4>
-                                <p>
-                                    Our signature blend. Dark, bold, and perfect for late-night study sessions.
-                                </p>
+                        <?php if (empty($featuredItems)): ?>
+                            <p>No featured items available at the moment.</p>
+                        <?php else: ?>
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Item Name</th>
+                                            <th>Description</th>
+                                            <th>Price (PHP)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($featuredItems as $item): ?>
+                                            <tr>
+                                                <td>
+                                                    <div style="display:flex; align-items:center; gap:1rem;">
+                                                        <?php if (!empty($item['image'])): ?>
+                                                            <img src="<?php echo htmlspecialchars($item['image']); ?>"
+                                                                alt="<?php echo htmlspecialchars($item['name']); ?>"
+                                                                style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+                                                        <?php endif; ?>
+                                                        <strong><?php echo htmlspecialchars($item['name']); ?></strong>
+                                                    </div>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($item['description']); ?></td>
+                                                <td><?php echo number_format($item['price'], 2); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="menu-list__item-price">
-                                <span>₱</span>120.00
-                            </div>
-                        </li>
-                        <li class="menu-list__item">
-                            <div class="menu-list__item-desc">
-                                <h4>Midnight Mocha</h4>
-                                <p>
-                                    Rich chocolate meets espresso. A sweet treat for the night owl.
-                                </p>
-                            </div>
-                            <div class="menu-list__item-price">
-                                <span>₱</span>135.00
-                            </div>
-                        </li>
-                    </ul> <!-- end menu-list -->
-
-                    <h6 class="menu-block__cat-name">
-                        Snacks
-                    </h6>
-
-                    <ul class="menu-list">
-                        <li class="menu-list__item">
-                            <div class="menu-list__item-desc">
-                                <h4>Nachos Grande</h4>
-                                <p>
-                                    Perfect for sharing. Loaded with cheese, salsa, and toppings.
-                                </p>
-                            </div>
-                            <div class="menu-list__item-price">
-                                <span>₱</span>180.00
-                            </div>
-                        </li>
-                    </ul> <!-- end menu-list -->
-
-                </div> <!-- end tab-content__item -->
-
-            </div> <!-- menu-block -->
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
 
         </div> <!-- end s-menu__content-end -->
 
