@@ -83,8 +83,9 @@
             </div>
             <div class="form-group">
                 <label>Equipment Add-ons</label>
-                <label><input type="checkbox" id="projector" value="150"> Projector (+₱150/hr)</label>
-                <label><input type="checkbox" id="speaker" value="150"> Speaker &amp; Mic (+₱150/hr)</label>
+                <label><input type="checkbox" id="projector" name="projector" value="150"> Projector (+₱150/hr)</label>
+                <label><input type="checkbox" id="speaker" name="speaker" value="150"> Speaker &amp; Mic
+                    (+₱150/hr)</label>
             </div>
             <div class="cost-estimation">
                 <h4>Estimated Cost: <span id="totalCost">₱0.00</span></h4>

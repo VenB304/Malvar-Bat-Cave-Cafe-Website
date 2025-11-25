@@ -4,34 +4,34 @@
  *
  * ------------------------------------------------------------------- */
 
-(function(html) {
+(function (html) {
 
     'use strict';
 
     const cfg = {
 
         // MailChimp URL
-        mailChimpURL : 'https://gmail.us8.list-manage.com/subscribe/post?u=0372f416821b8680ad7ce7df2&amp;id=d94694ee65&amp;f_id=001f16e1f0'
+        mailChimpURL: 'https://gmail.us8.list-manage.com/subscribe/post?u=0372f416821b8680ad7ce7df2&amp;id=d94694ee65&amp;f_id=001f16e1f0'
 
     };
 
 
-   /* preloader
-    * -------------------------------------------------- */
-    const ssPreloader = function() {
+    /* preloader
+     * -------------------------------------------------- */
+    const ssPreloader = function () {
 
         const siteBody = document.querySelector('body');
         const preloader = document.querySelector('#preloader');
         if (!preloader) return;
 
         html.classList.add('ss-preload');
-        
-        window.addEventListener('load', function() {
+
+        window.addEventListener('load', function () {
             html.classList.remove('ss-preload');
             html.classList.add('ss-loaded');
-            
+
             preloader.addEventListener('transitionend', function afterTransition(e) {
-                if (e.target.matches('#preloader'))  {
+                if (e.target.matches('#preloader')) {
                     siteBody.classList.add('ss-show');
                     e.target.style.display = 'none';
                     preloader.removeEventListener(e.type, afterTransition);
@@ -42,8 +42,8 @@
     }; // end ssPreloader
 
 
-   /* move header
-    * -------------------------------------------------- */
+    /* move header
+     * -------------------------------------------------- */
     const ssMoveHeader = function () {
 
         const hdr = document.querySelector('.s-header');
@@ -52,7 +52,7 @@
 
         if (!(hdr && hero)) return;
 
-        setTimeout(function() {
+        setTimeout(function () {
             triggerHeight = hero.offsetHeight - 240;
         }, 120);
 
@@ -83,9 +83,9 @@
     }; // end ssMoveHeader
 
 
-   /* mobile menu
-    * ---------------------------------------------------- */ 
-    const ssMobileMenu = function() {
+    /* mobile menu
+     * ---------------------------------------------------- */
+    const ssMobileMenu = function () {
 
         const toggleButton = document.querySelector('.header-menu-toggle');
         const mainNavWrap = document.querySelector('.header-nav');
@@ -93,15 +93,15 @@
 
         if (!(toggleButton && mainNavWrap)) return;
 
-        toggleButton.addEventListener('click', function(e) {
+        toggleButton.addEventListener('click', function (e) {
             e.preventDefault();
             toggleButton.classList.toggle('is-clicked');
             siteBody.classList.toggle('menu-is-open');
         });
 
-        mainNavWrap.querySelectorAll('.header-nav a').forEach(function(link) {
+        mainNavWrap.querySelectorAll('.header-nav a').forEach(function (link) {
 
-            link.addEventListener("click", function(event) {
+            link.addEventListener("click", function (event) {
 
                 // at 900px and below
                 if (window.matchMedia('(max-width: 900px)').matches) {
@@ -111,7 +111,7 @@
             });
         });
 
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
 
             // above 900px
             if (window.matchMedia('(min-width: 901px)').matches) {
@@ -122,10 +122,10 @@
 
     }; // end ssMobileMenu
 
-     
-   /* highlight active menu link on pagescroll
-    * ------------------------------------------------------ */
-     const ssScrollSpy = function() {
+
+    /* highlight active menu link on pagescroll
+     * ------------------------------------------------------ */
+    const ssScrollSpy = function () {
 
         const sections = document.querySelectorAll('.target-section');
         if (!sections) return;
@@ -134,27 +134,31 @@
         window.addEventListener('scroll', navHighlight);
 
         function navHighlight() {
-        
+
             // Get current scroll position
             let scrollY = window.pageYOffset;
-        
+
             // Loop through sections to get height(including padding and border), 
             // top and ID values for each
-            sections.forEach(function(current) {
+            sections.forEach(function (current) {
                 const sectionHeight = current.offsetHeight;
                 const sectionTop = current.offsetTop - 50;
                 const sectionId = current.getAttribute('id');
-            
-               /* If our current scroll position enters the space where current section 
-                * on screen is, add .current class to parent element(li) of the thecorresponding 
-                * navigation link, else remove it. To know which link is active, we use 
-                * sectionId variable we are getting while looping through sections as 
-                * an selector
-                */
-                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                    document.querySelector('.header-nav a[href*=' + sectionId + ']').parentNode.classList.add('current');
-                } else {
-                    document.querySelector('.header-nav a[href*=' + sectionId + ']').parentNode.classList.remove('current');
+
+                /* If our current scroll position enters the space where current section 
+                 * on screen is, add .current class to parent element(li) of the thecorresponding 
+                 * navigation link, else remove it. To know which link is active, we use 
+                 * sectionId variable we are getting while looping through sections as 
+                 * an selector
+                 */
+                // Only try to highlight if we are on the same page as the link
+                const link = document.querySelector('.header-nav a[href*="#' + sectionId + '"]');
+                if (link) {
+                    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                        link.parentNode.classList.add('current');
+                    } else {
+                        link.parentNode.classList.remove('current');
+                    }
                 }
             });
         }
@@ -162,9 +166,26 @@
     }; // end ssScrollSpy
 
 
-   /* glightbox
-    * ------------------------------------------------------ */ 
-    const ssGLightbox = function() {
+    /* active menu link on page load
+     * ------------------------------------------------------ */
+    const ssActiveLink = function () {
+        const currentPath = window.location.pathname.split('/').pop() || 'index.php'; // Handle root path
+        const links = document.querySelectorAll('.header-nav a');
+
+        links.forEach(link => {
+            const href = link.getAttribute('href');
+            // Exact match for non-hash links (like menu.php)
+            // Also handle cases where href is 'index.php' and currentPath is '' (root)
+            if (href === currentPath || (href === 'index.php' && currentPath === '')) {
+                link.parentNode.classList.add('current');
+            }
+        });
+    }; // end ssActiveLink
+
+
+    /* glightbox
+     * ------------------------------------------------------ */
+    const ssGLightbox = function () {
 
         const lightbox = GLightbox({
             selector: '.glightbox',
@@ -173,22 +194,22 @@
             loop: false,
             autoplayVideos: true,
             svg: {
-                close: '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339.219-.531.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"/></svg>',
+                close: '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12 10.93 5.719-5.72c.146-.146.339-.219.531-.219.404 0 .75.324.75.749 0 .193-.073.385-.219.532l-5.72 5.719 5.719 5.719c.147.147.22.339.22.531 0 .427-.349.75-.75.75-.192 0-.385-.073-.531-.219l-5.719-5.719-5.719 5.719c-.146.146-.339-.219-.531-.219-.401 0-.75-.323-.75-.75 0-.192.073-.384.22-.531l5.719-5.719-5.72-5.719c-.146-.147-.219-.339-.219-.532 0-.425.346-.749.75-.749.192 0 .385.073.531.219z"/></svg>',
                 prev: '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m9.474 5.209s-4.501 4.505-6.254 6.259c-.147.146-.22.338-.22.53s.073.384.22.53c1.752 1.754 6.252 6.257 6.252 6.257.145.145.336.217.527.217.191-.001.383-.074.53-.221.293-.293.294-.766.004-1.057l-4.976-4.976h14.692c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-14.692l4.978-4.979c.289-.289.287-.761-.006-1.054-.147-.147-.339-.221-.53-.221-.191-.001-.38.071-.525.215z" fill-rule="nonzero"/></svg>',
                 next: '<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14.523 18.787s4.501-4.505 6.255-6.26c.146-.146.219-.338.219-.53s-.073-.383-.219-.53c-1.753-1.754-6.255-6.258-6.255-6.258-.144-.145-.334-.217-.524-.217-.193 0-.385.074-.532.221-.293.292-.295.766-.004 1.056l4.978 4.978h-14.692c-.414 0-.75.336-.75.75s.336.75.75.75h14.692l-4.979 4.979c-.289.289-.286.762.006 1.054.148.148.341.222.533.222.19 0 .378-.072.522-.215z" fill-rule="nonzero"/></svg>'
             }
-        });        
+        });
 
     } // end ssGLightbox
 
 
-   /* swiper
-    * ------------------------------------------------------ */ 
-    const ssSwiper = function() {           
-    
-        const testimonialSlider = function() {
+    /* swiper
+     * ------------------------------------------------------ */
+    const ssSwiper = function () {
 
-            const tSlider = document.querySelector('.testimonials-slider');            
+        const testimonialSlider = function () {
+
+            const tSlider = document.querySelector('.testimonials-slider');
             if (!(tSlider)) return;
 
             const slider = new Swiper(tSlider, {
@@ -218,15 +239,15 @@
             });
 
         }; // end testimonialSlider
-        
+
         testimonialSlider();
 
     }; // end ssSwiper
 
 
-   /* tabs
-    * ---------------------------------------------------- */ 
-    const sstabs = function(nextTab = false) {
+    /* tabs
+     * ---------------------------------------------------- */
+    const sstabs = function (nextTab = false) {
 
         const tabList = document.querySelector('.tab-nav__list');
         const tabPanels = document.querySelectorAll('.tab-content__item');
@@ -235,24 +256,24 @@
 
         if (!(tabList && tabPanels)) return;
 
-        const tabClickEvent = function(tabLink, tabLinks, tabPanels, linkIndex, e) {
-    
+        const tabClickEvent = function (tabLink, tabLinks, tabPanels, linkIndex, e) {
+
             // Reset all the tablinks
-            tabLinks.forEach(function(link) {
+            tabLinks.forEach(function (link) {
                 link.setAttribute('tabindex', '-1');
                 link.setAttribute('aria-selected', 'false');
                 link.parentNode.removeAttribute('data-tab-active');
                 link.removeAttribute('data-tab-active');
             });
-    
+
             // set the active link attributes
             tabLink.setAttribute('tabindex', '0');
             tabLink.setAttribute('aria-selected', 'true');
             tabLink.parentNode.setAttribute('data-tab-active', '');
             tabLink.setAttribute('data-tab-active', '');
-    
+
             // Change tab panel visibility
-            tabPanels.forEach(function(panel, index) {
+            tabPanels.forEach(function (panel, index) {
                 if (index != linkIndex) {
                     panel.setAttribute('aria-hidden', 'true');
                     panel.removeAttribute('data-tab-active');
@@ -265,8 +286,8 @@
             window.dispatchEvent(new Event("resize"));
 
         };
-    
-        const keyboardEvent = function(tabLink, tabLinks, tabPanels, tabItems, index, e) {
+
+        const keyboardEvent = function (tabLink, tabLinks, tabPanels, tabItems, index, e) {
 
             let keyCode = e.keyCode;
             let currentTab = tabLinks[index];
@@ -274,24 +295,24 @@
             let nextTab = tabLinks[index + 1];
             let firstTab = tabLinks[0];
             let lastTab = tabLinks[tabLinks.length - 1];
-    
+
             // ArrowRight and ArrowLeft are the values when event.key is supported
             switch (keyCode) {
                 case 'ArrowLeft':
                 case 37:
                     e.preventDefault();
-    
+
                     if (!previousTab) {
                         lastTab.focus();
                     } else {
                         previousTab.focus();
                     }
                     break;
-    
+
                 case 'ArrowRight':
                 case 39:
                     e.preventDefault();
-    
+
                     if (!nextTab) {
                         firstTab.focus();
                     } else {
@@ -299,27 +320,27 @@
                     }
                     break;
             }
-    
+
         };
 
         // Add accessibility roles and labels
-        tabList.setAttribute('role','tablist');
-        tabItems.forEach(function(item, index) {
-    
+        tabList.setAttribute('role', 'tablist');
+        tabItems.forEach(function (item, index) {
+
             let link = item.querySelector('a');
-    
+
             // collect tab links
             tabLinks.push(link);
             item.setAttribute('role', 'presentation');
-    
+
             if (index == 0) {
                 item.setAttribute('data-tab-active', '');
             }
-    
+
         });
-    
+
         // Set up tab links
-        tabLinks.forEach(function(link, i) {
+        tabLinks.forEach(function (link, i) {
             let anchor = link.getAttribute('href').split('#')[1];
             let attributes = {
                 'id': 'tab-link-' + i,
@@ -328,59 +349,59 @@
                 'aria-selected': 'false',
                 'aria-controls': anchor
             };
-    
+
             // if it's the first element update the attributes
             if (i == 0) {
                 attributes['aria-selected'] = 'true';
                 attributes.tabIndex = '0';
                 link.setAttribute('data-tab-active', '');
             };
-    
+
             // Add the various accessibility roles and labels to the links
             for (var key in attributes) {
                 link.setAttribute(key, attributes[key]);
             }
-                  
+
             // Click Event Listener
-            link.addEventListener('click', function(e) {
+            link.addEventListener('click', function (e) {
                 e.preventDefault();
             });
-          
+
             // Click Event Listener
-            link.addEventListener('focus', function(e) {
+            link.addEventListener('focus', function (e) {
                 tabClickEvent(this, tabLinks, tabPanels, i, e);
             });
-    
+
             // Keyboard event listener
-            link.addEventListener('keydown', function(e) {
+            link.addEventListener('keydown', function (e) {
                 keyboardEvent(link, tabLinks, tabPanels, tabItems, i, e);
             });
         });
-    
+
         // Set up tab panels
-        tabPanels.forEach(function(panel, i) {
-    
+        tabPanels.forEach(function (panel, i) {
+
             let attributes = {
                 'role': 'tabpanel',
                 'aria-hidden': 'true',
                 'aria-labelledby': 'tab-link-' + i
             };
-          
+
             if (nextTab) {
                 let nextTabLink = document.createElement('a');
                 let nextTabLinkIndex = (i < tabPanels.length - 1) ? i + 1 : 0;
 
-                 // set up next tab link
+                // set up next tab link
                 nextTabLink.setAttribute('href', '#tab-link-' + nextTabLinkIndex);
                 nextTabLink.textContent = 'Next Tab';
                 panel.appendChild(nextTabLink);
             }
-               
+
             if (i == 0) {
                 attributes['aria-hidden'] = 'false';
                 panel.setAttribute('data-tab-active', '');
             }
-    
+
             for (let key in attributes) {
                 panel.setAttribute(key, attributes[key]);
             }
@@ -388,9 +409,9 @@
     };
 
 
-   /* mailchimp form
-    * ---------------------------------------------------- */ 
-    const ssMailChimpForm = function() {
+    /* mailchimp form
+     * ---------------------------------------------------- */
+    const ssMailChimpForm = function () {
 
         const mcForm = document.querySelector('#mc-form');
 
@@ -454,7 +475,7 @@
         window.displayMailChimpStatus = function (data) {
 
             // Make sure the data is in the right format and that there's a status container
-            if (!data.result || !data.msg || !mcStatus ) return;
+            if (!data.result || !data.msg || !mcStatus) return;
 
             // Update our status message
             mcStatus.innerHTML = data.msg;
@@ -484,8 +505,8 @@
             url += serialize + '&c=displayMailChimpStatus';
 
             // Create script with url and callback (if specified)
-            var ref = window.document.getElementsByTagName( 'script' )[ 0 ];
-            var script = window.document.createElement( 'script' );
+            var ref = window.document.getElementsByTagName('script')[0];
+            var script = window.document.createElement('script');
             script.src = url;
 
             // Create global variable for the status container
@@ -494,7 +515,7 @@
             window.mcStatus.innerText = 'Submitting...';
 
             // Insert script tag into the DOM
-            ref.parentNode.insertBefore( script, ref );
+            ref.parentNode.insertBefore(script, ref);
 
             // After the script is loaded (and executed), remove it
             script.onload = function () {
@@ -524,20 +545,20 @@
     }; // end ssMailChimpForm
 
 
-   /* alert boxes
-    * ------------------------------------------------------ */
-    const ssAlertBoxes = function() {
+    /* alert boxes
+     * ------------------------------------------------------ */
+    const ssAlertBoxes = function () {
 
         const boxes = document.querySelectorAll('.alert-box');
-  
-        boxes.forEach(function(box){
 
-            box.addEventListener('click', function(e) {
+        boxes.forEach(function (box) {
+
+            box.addEventListener('click', function (e) {
                 if (e.target.matches('.alert-box__close')) {
                     e.stopPropagation();
                     e.target.parentElement.classList.add('hideit');
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         box.style.display = 'none';
                     }, 500)
                 }
@@ -547,42 +568,42 @@
     }; // end ssAlertBoxes
 
 
-   /* smoothscroll
-    * ---------------------------------------------------- */ 
-    const ssSmoothScroll = function() {
-        
+    /* smoothscroll
+     * ---------------------------------------------------- */
+    const ssSmoothScroll = function () {
+
         // Easing functions for smooth scroll animation
         const easeFunctions = {
-            easeInQuad: function(t, b, c, d) {
+            easeInQuad: function (t, b, c, d) {
                 t /= d;
                 return c * t * t + b;
             },
-            easeOutQuad: function(t, b, c, d) {
+            easeOutQuad: function (t, b, c, d) {
                 t /= d;
                 return -c * t * (t - 2) + b;
             },
-            easeInOutQuad: function(t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t + b;
+            easeInOutQuad: function (t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t + b;
                 t--;
-                return -c/2 * (t*(t-2) - 1) + b;
+                return -c / 2 * (t * (t - 2) - 1) + b;
             },
-            easeInOutCubic: function(t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t*t + b;
+            easeInOutCubic: function (t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t * t + b;
                 t -= 2;
-                return c/2*(t*t*t + 2) + b;
+                return c / 2 * (t * t * t + 2) + b;
             },
-            easeSmoothInOut: function(t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t*t*t*t + b;
+            easeSmoothInOut: function (t, b, c, d) {
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t * t * t * t + b;
                 t -= 2;
-                return c/2*(t*t*t*t*t + 2) + b;
+                return c / 2 * (t * t * t * t * t + 2) + b;
             }
         };
 
         // Scroll configuration options
-        const config = {            
+        const config = {
             // onStart: function() { console.log('Scroll started'); },
             // onComplete: function() { console.log('Scroll completed'); },
             tolerance: 0,
@@ -655,24 +676,47 @@
             // Start animation
             animationFrameId = requestAnimationFrame(animateScroll);
         }
-        
+
 
         // Find smooth scroll triggers
-        const triggers = document.querySelectorAll('.smoothscroll');        
+        const triggers = document.querySelectorAll('.smoothscroll');
 
         // Add click event listeners to triggers
-        triggers.forEach(function(trigger) {
+        triggers.forEach(function (trigger) {
 
-            trigger.addEventListener('click', function(e) {
-                e.preventDefault();
+            trigger.addEventListener('click', function (e) {
                 const href = trigger.getAttribute('href');
-                const target = href === '#' ? { getBoundingClientRect: function() { return { top: 0 }; } } : document.querySelector(href);
 
-                // Scroll to target or warn if not found
-                if (target) {
-                    smoothScrollTo(target, config);
-                } else {
-                    console.warn(`Target "${href}" not found`);
+                // Determine if we should smooth scroll
+                let shouldScroll = false;
+                let targetHash = '';
+
+                if (href.startsWith('#')) {
+                    shouldScroll = true;
+                    targetHash = href;
+                } else if (href.includes('#')) {
+                    const parts = href.split('#');
+                    const path = parts[0];
+                    const hash = parts[1];
+                    const currentPath = window.location.pathname.split('/').pop() || 'index.php';
+
+                    // If link points to current page (e.g. index.php when on index.php)
+                    if (path === currentPath || (path === 'index.php' && currentPath === '')) {
+                        shouldScroll = true;
+                        targetHash = '#' + hash;
+                    }
+                }
+
+                if (shouldScroll && targetHash) {
+                    e.preventDefault();
+                    const target = document.querySelector(targetHash);
+
+                    // Scroll to target or warn if not found
+                    if (target) {
+                        smoothScrollTo(target, config);
+                    } else {
+                        console.warn(`Target "${targetHash}" not found`);
+                    }
                 }
             });
 
@@ -681,14 +725,15 @@
     }; // end ssSmoothScroll
 
 
-   /* Initialize
-    * ------------------------------------------------------ */
+    /* Initialize
+     * ------------------------------------------------------ */
     (function ssInit() {
 
         ssPreloader();
         ssMoveHeader();
         ssMobileMenu();
         ssScrollSpy();
+        ssActiveLink();
         ssGLightbox();
         ssSwiper();
         sstabs();

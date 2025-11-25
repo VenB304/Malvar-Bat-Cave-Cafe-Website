@@ -171,13 +171,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Base Cost
         if (mode === 'study') {
-            paxContainer.style.display = 'block';
+            
             total = 50 * pax * duration;
         } else {
-            paxContainer.style.display = 'none'; // Event is flat rate
             total = 1000 * duration;
         }
-
+        paxContainer.style.display = 'block';
+        
         // Equipment
         if (projectorInput.checked) total += 150 * duration;
         if (speakerInput.checked) total += 150 * duration;

@@ -2,7 +2,7 @@
 
 <!-- # menu
     ================================================== -->
-<section id="menu" class="container s-menu target-section">
+<section id="page-menu" class="container s-menu target-section">
 
     <div class="row s-menu__content">
 

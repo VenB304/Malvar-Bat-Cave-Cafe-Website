@@ -1,17 +1,18 @@
 [
     {
-        "id": "692590bc603e5",
+        "id": "6925d067591f3",
         "name": "Karl Zyrele Palomo",
         "email": "ventralberry@gmail.com",
         "phone": "09562672240",
-        "date": "2025-11-01",
+        "date": "2025-11-13",
         "time": "13",
         "mode": "event",
-        "pax": 20,
-        "duration": 12,
+        "pax": 10,
+        "duration": 5,
         "projector": true,
-        "total_cost": "15600.00",
+        "speaker": true,
+        "total_cost": "6500.00",
         "status": "Approved",
-        "created_at": "2025-11-25 11:19:24"
+        "created_at": "2025-11-25 15:51:03"
     }
 ]

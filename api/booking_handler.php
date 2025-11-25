@@ -21,6 +21,7 @@ if ($method === 'POST') {
             'pax' => intval($_POST['pax'] ?? 1),
             'duration' => intval($_POST['duration'] ?? 1),
             'projector' => isset($_POST['projector']) ? true : false,
+            'speaker' => isset($_POST['speaker']) ? true : false,
             'total_cost' => $_POST['total_cost'] ?? 0,
             'status' => 'Pending',
             'created_at' => date('Y-m-d H:i:s')

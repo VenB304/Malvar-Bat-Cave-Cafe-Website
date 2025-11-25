@@ -63,9 +63,10 @@
 
                 <nav class="header-nav">
                     <ul class="header-nav__links">
-                        <li><a href="index.php">Home</a></li>
+                        <li><a href="index.php#intro" class="smoothscroll">Home</a></li>
+                        <li><a href="index.php#about" class="smoothscroll">About</a></li>
+                        <li><a href="index.php#menu" class="smoothscroll">Featured</a></li>
                         <li><a href="menu.php">Menu</a></li>
-                        <!-- <li><a href="#gallery">Gallery</a></li> -->
                     </ul> <!-- end header-nav__links -->
 
                     <div class="header-contact">
