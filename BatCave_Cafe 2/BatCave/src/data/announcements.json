@@ -1,0 +1,16 @@
+[
+    {
+        "title": "test announcement",
+        "content": "hotdog",
+        "date": "2025-11-26",
+        "image": "images\/announcements\/6926c2238152a_Screenshot 2024-08-06 110346.png",
+        "id": "6926c1729ab4b"
+    },
+    {
+        "title": "previous but new",
+        "content": "asdfasdfa",
+        "date": "2025-11-25",
+        "image": "",
+        "id": "6926c3a9f30e2"
+    }
+]

@@ -1,0 +1,45 @@
+[
+    {
+        "id": "1",
+        "name": "The Bat Brew",
+        "description": "Our signature blend. Dark, bold, and perfect for late-night study sessions.",
+        "price": 120,
+        "category": "Signature Coffee",
+        "is_featured": true,
+        "image": ""
+    },
+    {
+        "id": "2",
+        "name": "Midnight Mocha",
+        "description": "Rich chocolate meets espresso. A sweet treat for the night owl.",
+        "price": 135,
+        "category": "Signature Coffee",
+        "is_featured": true
+    },
+    {
+        "id": "3",
+        "name": "Red Velvet Muffin",
+        "description": "Moist and fluffy with a hint of cocoa.",
+        "price": 65,
+        "category": "Pastries",
+        "is_featured": true,
+        "image": ""
+    },
+    {
+        "id": "4",
+        "name": "Nachos Grande",
+        "description": "Loaded with cheese, salsa, and toppings. Good for sharing.",
+        "price": 180,
+        "category": "Snacks",
+        "is_featured": true
+    },
+    {
+        "name": "Test Item",
+        "description": "",
+        "price": 100,
+        "category": "Signature Coffee",
+        "is_featured": true,
+        "image": "images\/menu\/6926b8e5d750e_buff jollibee.jpg",
+        "id": "69254cb994a53"
+    }
+]
